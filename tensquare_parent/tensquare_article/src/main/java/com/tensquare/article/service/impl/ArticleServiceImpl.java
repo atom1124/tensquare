@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.smartcardio.ATR;
 import java.util.List;
 import java.util.Map;
 
@@ -106,10 +105,10 @@ public class ArticleServiceImpl implements ArticleService {
             entityWrapper.eq("userid", map.get("userid"));
         }
         if (!StringUtils.isEmpty(map.get("title"))) {
-            entityWrapper.eq("title", map.get("title"));
+            entityWrapper.eq("title", "%"+map.get("title")+"%");
         }
         if (!StringUtils.isEmpty(map.get("content"))) {
-            entityWrapper.eq("content", map.get("content"));
+            entityWrapper.eq("content","%"+map.get("content")+"%");
         }
         //调用dao
         List<Article> articleListPage = articleDao.selectPage(pageList, entityWrapper);

@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Mybatis Plus分页插件
+ * 分页查询配置类
  */
 @Configuration
 public class MybatisPlusConfig {

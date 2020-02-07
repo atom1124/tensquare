@@ -87,7 +87,7 @@ public class IdWorker {
             // 当前毫秒内，则+1
             sequence = (sequence + 1) & sequenceMask;
             if (sequence == 0) {
-                // 当前毫秒内计数满了，则等待下一秒
+                // 当前毫秒内计数满了，则等待下一毫秒
                 timestamp = tilNextMillis(lastTimestamp);
             }
         } else {

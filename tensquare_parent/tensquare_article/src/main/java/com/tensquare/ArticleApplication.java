@@ -1,4 +1,4 @@
-package com.tensquare.article;
+package com.tensquare;
 
 import com.tensquare.util.IdWorker;
 import org.mybatis.spring.annotation.MapperScan;
