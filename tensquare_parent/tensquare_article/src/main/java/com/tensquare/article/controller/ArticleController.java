@@ -50,7 +50,7 @@ public class ArticleController {
      */
     @RequestMapping(value = "/findAll")
     public Result findAll() {
-        int a = 10/0;
+       
         List<Article> articleList = articleService.findAll();
         return new Result(true, StatusCode.OK, "查询所有文章成功!", articleList);
     }

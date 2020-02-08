@@ -5,9 +5,19 @@ spring:
     name: tensquare-article #服务名称
   datasource: # 数据库连接四个属性
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.211.128:3306/tensquare_article?characterEncoding=utf-8
+    url: jdbc:mysql://192.168.211.129:3306/tensquare_article?characterEncoding=utf-8
     username: root
     password: 123456
+
+  #mongodb
+  data:
+    mongodb:
+      database: commentdb
+      host: 192.168.211.129
+  #redis
+  redis:
+    host: 192.168.211.129
+
 # Mybatis-Plus 配置
 mybatis-plus:
   #  mapper-locations: classpath:/mapper/*Mapper.xml
