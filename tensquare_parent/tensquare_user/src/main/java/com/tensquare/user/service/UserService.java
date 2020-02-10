@@ -17,11 +17,11 @@ public class UserService {
 
     /**
      * 根据用户id查询用户信息
-     * @param userid
+     * @param userId
      * @return
      */
-    public User findById(String userid) {
-        return userDao.selectById(userid);
+    public User findById(String userId) {
+        return userDao.selectById(userId);
     }
 
 }

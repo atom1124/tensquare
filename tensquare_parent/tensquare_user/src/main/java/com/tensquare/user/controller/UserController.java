@@ -23,12 +23,12 @@ public class UserController {
 
     /**
      * 根据用户id查询用户信息
-     * @param userid
+     * @param userId
      * @return
      */
-    @RequestMapping(value = "/{userid}", method = RequestMethod.GET)
-    public Result findById(@PathVariable String userid) {
-        User user = userService.findById(userid);
+    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+    public Result findById(@PathVariable String userId) {
+        User user = userService.findById(userId);
         return new Result(true, StatusCode.OK, "查询成功", user);
     }
 
