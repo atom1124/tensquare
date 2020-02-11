@@ -8,10 +8,7 @@ import com.tensquare.notice.pojo.Notice;
 import com.tensquare.notice.pojo.NoticeFresh;
 import com.tensquare.notice.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 /**
  * 消息通知控制器

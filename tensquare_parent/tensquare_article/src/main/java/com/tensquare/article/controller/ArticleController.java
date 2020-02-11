@@ -50,7 +50,7 @@ public class ArticleController {
      */
     @RequestMapping(value = "/findAll")
     public Result findAll() {
-       
+
         List<Article> articleList = articleService.findAll();
         return new Result(true, StatusCode.OK, "查询所有文章成功!", articleList);
     }
@@ -89,6 +89,39 @@ public class ArticleController {
         Page<Article> pageList = articleService.search(map, page, size);
         PageResult pageResult = new PageResult(pageList.getTotal(), pageList.getRecords());
         return new Result(true, StatusCode.OK, "分页查询成功!", pageResult);
+
+    }
+
+    /**
+     * 根据文章id订阅作者
+     * @return
+     */
+    @RequestMapping(value = "/subscribe", method = RequestMethod.POST)
+    public Result subscribe(@RequestBody Map map) {
+        String articleId = (String) map.get("articleId");
+        String userId = (String) map.get("userId");
+        boolean flag = articleService.subscribe(userId, articleId);
+        if (flag) {
+            return new Result(true, StatusCode.OK, "订阅成功");
+        }
+        return new Result(true, StatusCode.OK, "取消订阅成功");
+
+    }
+
+    /**
+     * 实现文章点赞
+     * @return
+     */
+    @RequestMapping(value = "/thumbup/{articleId}/{userId}", method = RequestMethod.GET)
+    public Result thumbup(@PathVariable String articleId,@PathVariable String userId) {
+        //控制重复点赞
+        boolean flag = articleService.thumbup(articleId,userId);
+        if (flag) {
+            //点赞成功
+            return new Result(true, StatusCode.OK, "点赞成功!");
+        }
+        //重复点赞
+        return new Result(false, StatusCode.ERROR, "无需重复点赞!");
 
     }
 

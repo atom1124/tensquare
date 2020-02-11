@@ -29,4 +29,9 @@ public interface ArticleService {
     //条件查询和分页
     Page<Article> search(Map map, int page, int size);
 
+    //订阅
+    boolean subscribe(String userId, String articleId);
+
+    //点赞
+    boolean thumbup(String userId, String articleId);
 }
