@@ -18,7 +18,9 @@ spring:
   redis:
     host: 192.168.211.129
 
-
+  rabbitmq:
+    host: 192.168.211.129
+  #eureka
 eureka:
   client:
     service-url:

@@ -12,6 +12,7 @@ import com.tensquare.notice.pojo.NoticeFresh;
 import com.tensquare.util.IdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -55,6 +56,7 @@ public class NoticeService {
      * 新增消息通知
      * @param notice
      */
+    @Transactional
     public void add(Notice notice) {
         //1.设置初始化数据
         String id = idWorker.nextId() + "";
@@ -64,10 +66,10 @@ public class NoticeService {
         noticeDao.insert(notice);
 
         //2.待推送信入库,新消息提醒
-        NoticeFresh noticeFresh = new NoticeFresh();
-        noticeFresh.setUserId(notice.getReceiverId());//待通知用户的id
-        noticeFresh.setNoticeId(id);
-        noticeFreshDao.insert(noticeFresh);//保存进数据库
+        //NoticeFresh noticeFresh = new NoticeFresh();
+        //noticeFresh.setUserId(notice.getReceiverId());//待通知用户的id
+        //noticeFresh.setNoticeId(id);
+        //noticeFreshDao.insert(noticeFresh);//保存进数据库
 
     }
 
