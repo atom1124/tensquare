@@ -5,6 +5,9 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * 配置类
+ */
 @Configuration
 //配置Mapper包扫描
 @MapperScan("com.tensquare.notice.dao")

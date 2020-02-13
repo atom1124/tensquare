@@ -1,4 +1,4 @@
-package com.tensquare.notice.config;
+package com.tensquare.notice.linstener;
 
 import com.tensquare.notice.linstener.SysNoticeListener;
 import com.tensquare.notice.linstener.UserNoticeListener;

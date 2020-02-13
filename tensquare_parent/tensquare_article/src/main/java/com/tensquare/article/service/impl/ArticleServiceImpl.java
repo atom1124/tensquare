@@ -9,7 +9,10 @@ import com.tensquare.article.pojo.Article;
 import com.tensquare.article.pojo.Notice;
 import com.tensquare.article.service.ArticleService;
 import com.tensquare.util.IdWorker;
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,7 +86,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
         articleDao.insert(article);
         //入库成功后,发送mq消息,内容是消息通知id
-        rabbitTemplate.convertAndSend(RabbitmqConfig.EX_ARTICLE,authorId,article.getId());
+        rabbitTemplate.convertAndSend(RabbitmqConfig.EX_ARTICLE, authorId, article.getId());
     }
 
     /**
@@ -176,7 +179,7 @@ public class ArticleServiceImpl implements ArticleService {
         //判断用户是否已经关注作者
         Boolean isMember = redisTemplate.opsForSet().isMember(userKey, authorId);
         //创建queue
-        Queue queue = new Queue("article_subscribe_"+userId,true);
+        Queue queue = new Queue("article_subscribe_" + userId, true);
         //声明exchange和queue的绑定关系，设置路由键为作者id
         Binding binding = BindingBuilder.bind(queue).to(exchange).with(authorId);
 
@@ -211,10 +214,11 @@ public class ArticleServiceImpl implements ArticleService {
     public boolean thumbup(String articleId, String userId) {
         //1.判断是否已经点赞
         Object o = redisTemplate.opsForValue().get("article_thumbup_" + userId + "_" + articleId);
-        //2.如果没有点赞，则点赞
+        //2.如果点赞,則不需要重复点赞
         if (!StringUtils.isEmpty(o)) {
             return false;//重复点赞
         }
+        //3.如果已经点赞,无需重复操作
         Article article = articleDao.selectById(articleId);
         article.setThumbup(article.getThumbup() + 1);
         articleDao.updateById(article);
@@ -230,6 +234,12 @@ public class ArticleServiceImpl implements ArticleService {
         notice.setTargetId(article.getId());//文章id
         notice.setType("user");//消息通知系统群发的
         noticeClient.add(notice);
+
+        //4.创建队列,每个用户都有自己的队列.通过用户id进行区分
+        Queue queue = new Queue("article_thumbup_" + article.getUserid(), true);
+        rabbitAdmin.declareQueue(queue);
+        //5.发送消息
+        rabbitTemplate.convertAndSend("article_thumbup_" + article.getUserid(),articleId);
 
         return true;
     }
